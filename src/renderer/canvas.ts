@@ -36,16 +36,23 @@ export class CanvasManipuilator {
         analysis.forEach((value, $idx) => {
             this.context.beginPath()
             let radius = Math.abs(randomFunction(Math.abs(value))) * 50
-            let randomAmplifier = Math.random() * 2.5 + 1
+            let randomAmplifier = Math.random() * 1.5 + 1
             radius = radius * randomAmplifier
             this.context.moveTo(x + radius, y)
             if ($idx % 2 === 0) {
-                this.context.arc(x, y, radius, 0, 2 * Math.PI)
+                this.context.arc(
+                    x,
+                    y,
+                    radius,
+                    0,
+                    Math.floor(Math.random() * 2 + 1) * Math.PI,
+                    Math.random() < 0.5
+                )
             } else {
                 this.context.fillRect(x, y, radius, radius)
             }
             const color = `hsl(
-                ${Math.floor(Math.random() * 359)},
+                ${Math.floor(Math.random() * 360)},
                 ${Math.floor(Math.random() * 99)}%,
                 ${Math.floor(Math.random() * 99)}%`
             this.context.strokeStyle = color
@@ -79,8 +86,8 @@ export class CanvasManipuilator {
             (x: number) => Math.sin(Math.pow(x, 2)),
             (x: number) => Math.sqrt(Math.sin(x) * Math.cos(x)),
         ]
-        return operations[Math.floor(Math.random() * operations.length)]
-        // return operations[1]
+        // return operations[Math.floor(Math.random() * operations.length)]
+        return operations[1]
     }
 
     private animate() {
