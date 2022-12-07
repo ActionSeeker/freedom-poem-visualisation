@@ -71,4 +71,10 @@ export class FileSystem {
             return obj
         }, [])
     }
+
+    public getCharsFromPoem(): string[] {
+        const poemText = this.readPoem().split('')
+        const alphabets = Object.keys(this.readAlphabets())
+        return poemText.filter((p) => alphabets.indexOf(p) !== -1)
+    }
 }
