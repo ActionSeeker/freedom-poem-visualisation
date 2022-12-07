@@ -39,15 +39,10 @@ export class CanvasManipuilator {
             let randomAmplifier = Math.random() * 1.5 + 1
             radius = radius * randomAmplifier
             this.context.moveTo(x + radius, y)
+            const angle = Math.floor(Math.random() * 2 + 1) * Math.PI
+            const counterclockwise = Math.random() < 0.5
             if ($idx % 2 === 0) {
-                this.context.arc(
-                    x,
-                    y,
-                    radius,
-                    0,
-                    Math.floor(Math.random() * 2 + 1) * Math.PI,
-                    Math.random() < 0.5
-                )
+                this.context.arc(x, y, radius, 0, angle, counterclockwise)
             } else {
                 this.context.fillRect(x, y, radius, radius)
             }
@@ -55,10 +50,50 @@ export class CanvasManipuilator {
                 ${Math.floor(Math.random() * 360)},
                 ${Math.floor(Math.random() * 99)}%,
                 ${Math.floor(Math.random() * 99)}%`
+
             this.context.strokeStyle = color
             this.context.fillStyle = color
             this.context.stroke()
             this.context.fill()
+
+            // Draw smaller white
+            this.context.beginPath()
+            if ($idx % 2 === 0) {
+                this.context.arc(
+                    x,
+                    y,
+                    radius * 0.85,
+                    0,
+                    angle,
+                    counterclockwise
+                )
+            } else {
+                this.context.fillRect(x, y, radius * 0.85, radius * 0.8)
+            }
+            this.context.strokeStyle = '#fff'
+            this.context.fillStyle = '#fff'
+            this.context.stroke()
+            this.context.fill()
+
+            this.context.beginPath()
+            // Draw the same coloured
+            if ($idx % 2 === 0) {
+                this.context.arc(
+                    x,
+                    y,
+                    radius * 0.73,
+                    0,
+                    angle,
+                    counterclockwise
+                )
+            } else {
+                this.context.fillRect(x, y, radius * 0.73, radius * 0.6)
+            }
+            this.context.strokeStyle = color
+            this.context.fillStyle = color
+            this.context.stroke()
+            this.context.fill()
+
             x = (x + radius) % this.canvas.width
             if ($idx % maxPerRow === 0) x = 0
             y += (Math.floor($idx / maxPerRow) + 1) % this.canvas.height
@@ -95,7 +130,7 @@ export class CanvasManipuilator {
         setTimeout(() => {
             this.counter = (this.counter + 1) % 10
             this.animate()
-        }, 70)
+        }, 80)
         // requestAnimationFrame(this.animate.bind(this))
     }
 }
