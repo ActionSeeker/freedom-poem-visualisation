@@ -36,12 +36,18 @@ export class CanvasManipuilator {
         analysis.forEach((value, $idx) => {
             this.context.beginPath()
             let radius = Math.abs(randomFunction(Math.abs(value))) * 50
+            let randomAmplifier = Math.random() * 2.5 + 1
+            radius = radius * randomAmplifier
             this.context.moveTo(x + radius, y)
-            this.context.arc(x, y, radius, 0, 2 * Math.PI)
+            if ($idx % 2 === 0) {
+                this.context.arc(x, y, radius, 0, 2 * Math.PI)
+            } else {
+                this.context.fillRect(x, y, radius, radius)
+            }
             const color = `hsl(
-                ${Math.random() * 359},
-                ${Math.random() * 99}%,
-                ${Math.random() * 99}%`
+                ${Math.floor(Math.random() * 359)},
+                ${Math.floor(Math.random() * 99)}%,
+                ${Math.floor(Math.random() * 99)}%`
             this.context.strokeStyle = color
             this.context.fillStyle = color
             this.context.stroke()
@@ -49,8 +55,17 @@ export class CanvasManipuilator {
             x = (x + radius) % this.canvas.width
             if ($idx % maxPerRow === 0) x = 0
             y += (Math.floor($idx / maxPerRow) + 1) % this.canvas.height
-            console.log(radius, x, y)
         })
+
+        this.context.font = '80px Arial'
+        this.context.textAlign = 'center'
+        this.context.strokeStyle = '#fff'
+        this.context.fillStyle = '#fff'
+        this.context.fillText(
+            'Wolność',
+            this.canvas.width / 2,
+            this.canvas.height / 2
+        )
     }
 
     private randomiser(): Function {
@@ -64,14 +79,14 @@ export class CanvasManipuilator {
             (x: number) => Math.sin(Math.pow(x, 2)),
             (x: number) => Math.sqrt(Math.sin(x) * Math.cos(x)),
         ]
-        // return operations[Math.floor(Math.random() * operations.length)]
-        return operations[1]
+        return operations[Math.floor(Math.random() * operations.length)]
+        // return operations[1]
     }
 
     private animate() {
         this.drawAnalysis()
         setTimeout(() => {
-            // this.counter = (this.counter + 1) % 10
+            this.counter = (this.counter + 1) % 10
             this.animate()
         }, 500)
         // requestAnimationFrame(this.animate.bind(this))
