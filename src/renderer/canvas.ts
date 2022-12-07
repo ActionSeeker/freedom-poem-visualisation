@@ -95,7 +95,7 @@ export class CanvasManipuilator {
         setTimeout(() => {
             this.counter = (this.counter + 1) % 10
             this.animate()
-        }, 500)
+        }, 70)
         // requestAnimationFrame(this.animate.bind(this))
     }
 }
